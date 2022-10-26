@@ -1,6 +1,7 @@
 using CarCatalogAPI.Source.Core.Interfaces.Repositories;
 using CarCatalogAPI.Source.Infraestructure;
 using CarCatalogAPI.Source.Infraestructure.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,11 @@ builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<CarCatalogDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<UserDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
+    .AddEntityFrameworkStores<UserDbContext>();
 
 builder.Services.AddScoped <ICarRepository, CarRepository>();
 
