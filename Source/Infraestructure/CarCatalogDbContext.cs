@@ -7,7 +7,7 @@ namespace CarCatalogAPI.Source.Infraestructure
     {
         public CarCatalogDbContext(DbContextOptions<CarCatalogDbContext> options) : base(options) { }
 
-        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarEntity> Cars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
