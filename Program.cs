@@ -1,6 +1,8 @@
 using CarCatalogAPI.Source.Core.Interfaces.Repositories;
+using CarCatalogAPI.Source.Core.Interfaces.Services;
 using CarCatalogAPI.Source.Infraestructure;
 using CarCatalogAPI.Source.Infraestructure.Persistence;
+using CarCatalogAPI.Source.Infraestructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,7 @@ builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
     .AddEntityFrameworkStores<UserDbContext>();
 
 builder.Services.AddScoped <ICarRepository, CarRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
