@@ -14,12 +14,21 @@ namespace CarCatalogAPI.Source.Application.Controller
         {
             _authService = userService;
         }
+
         [HttpPost("create")]
-        public IActionResult Create(UserDTO dto)
+        public async Task<IActionResult> Create(UserDTO dto)
         {
-            Result result = _authService.Create(dto);
+            Result result = await _authService.Create(dto);
             if (result.IsFailed) return StatusCode(400);
             return Ok();
-        } 
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO dto)
+        {
+            Result result = await _authService.Login(dto);
+            if (result.IsFailed) return Unauthorized();
+            return Ok();
+        }
     }
 }

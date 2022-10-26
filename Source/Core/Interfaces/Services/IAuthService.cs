@@ -5,6 +5,7 @@ namespace CarCatalogAPI.Source.Core.Interfaces.Services
 {
     public interface IAuthService
     {
-        Result Create(UserDTO user);
+        Task<Result> Create(UserDTO user);
+        Task<Result> Login(LoginDTO user);
     }
 }

@@ -9,11 +9,14 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
     public class AuthService : IAuthService
     {
         private UserManager<IdentityUser<int>> _userManager;
-        public AuthService(UserManager<IdentityUser<int>> userManager)
+        private SignInManager<IdentityUser<int>> _signInManager;
+        public AuthService(UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
-        public Result Create(UserDTO user)
+
+        public async Task<Result> Create(UserDTO user)
         {
             IdentityUser<int> userIdentity = new IdentityUser<int>
             {
@@ -21,9 +24,19 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
                 UserName = user.Username
             };
 
-            Task<IdentityResult> resultIdentity = _userManager.CreateAsync(userIdentity, user.Password);
+            IdentityResult resultIdentity = await _userManager.CreateAsync(userIdentity, user.Password);
 
-            if (resultIdentity.Result.Succeeded) return Result.Ok();
+            if (resultIdentity.Succeeded) return Result.Ok();
+
+            return Result.Fail("Falha ao cadastrar usuário");
+        }
+
+        public async Task<Result> Login(LoginDTO user)
+        {
+            SignInResult resultIdentity = await _signInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
+
+            if (resultIdentity.Succeeded) return Result.Ok();
+            
             return Result.Fail("Falha ao cadastrar usuário");
         }
     }
