@@ -2,9 +2,9 @@
 
 namespace CarCatalogAPI.Source.Entities
 {
-    public class Car
+    public class CarEntity
     {
-        public Car()
+        public CarEntity()
         {
             Id = Guid.NewGuid();
         }
