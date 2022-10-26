@@ -8,7 +8,7 @@ namespace CarCatalogAPI.Source.Application.Controller
     public class CarController : ControllerBase
     {
         [HttpGet]
-        public ActionResult<List<Car>> FindAll()
+        public ActionResult<List<CarEntity>> FindAll()
         {
             return Ok();
         }
