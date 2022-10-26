@@ -1,4 +1,5 @@
 ﻿using CarCatalogAPI.Source.Entities;
+using CarCatalogAPI.Source.Infraestructure.Map;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarCatalogAPI.Source.Infraestructure
@@ -11,7 +12,10 @@ namespace CarCatalogAPI.Source.Infraestructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new CarMap());
+
             base.OnModelCreating(modelBuilder);
         }
     }
 }
+ 
