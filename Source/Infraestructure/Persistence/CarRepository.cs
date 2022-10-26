@@ -1,5 +1,4 @@
-﻿using CarCatalogAPI.Source.Core.Exceptions;
-using CarCatalogAPI.Source.Core.Interfaces.Repositories;
+﻿using CarCatalogAPI.Source.Core.Interfaces.Repositories;
 using CarCatalogAPI.Source.Entities;
 using Microsoft.EntityFrameworkCore;
 
