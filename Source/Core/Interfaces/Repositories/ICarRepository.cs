@@ -7,7 +7,7 @@ namespace CarCatalogAPI.Source.Core.Interfaces.Repositories
         Task<List<CarEntity>> FindAll();
         Task<CarEntity> FindById(Guid carId);
         Task<CarEntity> Create(CarEntity car);
-        Task<CarEntity> Update(CarEntity carDTO, Guid Id);
-        Task<bool> Delete(Guid carId);
+        Task<CarEntity> Update(CarEntity car);
+        Task<bool> Delete(CarEntity car);
     }
 }

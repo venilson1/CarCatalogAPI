@@ -1,4 +1,5 @@
-﻿using CarCatalogAPI.Source.Core.Interfaces.Repositories;
+﻿using CarCatalogAPI.Source.Core.Exceptions;
+using CarCatalogAPI.Source.Core.Interfaces.Repositories;
 using CarCatalogAPI.Source.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,30 +29,17 @@ namespace CarCatalogAPI.Source.Infraestructure.Persistence
             return car;
 
         }
-        public async Task<CarEntity> Update(CarEntity carDTO, Guid id)
+        public async Task<CarEntity> Update(CarEntity car)
         {
-            CarEntity carEntity = await FindById(id);
+                _dbContex.Cars.Update(car);
+                await _dbContex.SaveChangesAsync();
 
-            if (carEntity == null) throw new Exception($"carro {id} não encontrado");
-
-            carEntity.Name = carDTO.Name;
-            carEntity.Brand = carDTO.Brand;
-            carEntity.Model = carDTO.Model;
-            carEntity.UrlImage = carDTO.UrlImage;
-
-            _dbContex.Cars.Update(carEntity);
-            await _dbContex.SaveChangesAsync();
-
-            return carEntity;
+                return car;
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(CarEntity car)
         {
-            CarEntity carEntity = await FindById(id);
-
-            if (carEntity == null) throw new Exception($"carro {id} não encontrado");
-
-            _dbContex.Cars.Remove(carEntity);
+            _dbContex.Cars.Remove(car);
             await _dbContex.SaveChangesAsync();
             return true;
         }

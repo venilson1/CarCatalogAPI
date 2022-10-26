@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarCatalogAPI.Source.Entities
+namespace CarCatalogAPI.Source.Core.DTOs
 {
-    public class CarEntity
+    public class CarDTO
     {
-        public CarEntity()
-        {
-            Id = Guid.NewGuid();
-        }
-        [Key]
-        [Required]
-        public Guid Id { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
@@ -19,6 +11,5 @@ namespace CarCatalogAPI.Source.Entities
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Model { get; set; }
         public string UrlImage { get; set; }
-        public DateTime CreatedAt { get; set; }
     }
 }
