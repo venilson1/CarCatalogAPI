@@ -10,10 +10,12 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
     {
         private UserManager<IdentityUser<int>> _userManager;
         private SignInManager<IdentityUser<int>> _signInManager;
-        public AuthService(UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
+        private ITokenService _tokenService;
+        public AuthService(UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
         public async Task<Result> Create(UserDTO user)
@@ -35,9 +37,17 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
         {
             SignInResult resultIdentity = await _signInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
 
-            if (resultIdentity.Succeeded) return Result.Ok();
+            if (resultIdentity.Succeeded) 
+            {
+                var identityUser = _signInManager
+                    .UserManager.Users.FirstOrDefault(u => u.NormalizedUserName == user.Username.ToUpper());
+                
+                TokenEntity token = _tokenService.Create(identityUser);
+                
+                return Result.Ok().WithSuccess(token.Value);
+            } 
             
-            return Result.Fail("Falha ao cadastrar usuário");
+            return Result.Fail("Falha ao fazer login");
         }
     }
 }
