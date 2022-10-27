@@ -3,8 +3,11 @@ using CarCatalogAPI.Source.Core.Interfaces.Services;
 using CarCatalogAPI.Source.Infraestructure;
 using CarCatalogAPI.Source.Infraestructure.Persistence;
 using CarCatalogAPI.Source.Infraestructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,25 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 
 builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
     .AddEntityFrameworkStores<UserDbContext>();
+
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(token =>
+    {
+        token.RequireHttpsMetadata = false;
+        token.SaveToken = true;
+        token.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("4aaeaa785a4cec250c162292ecb6b9f060c2c82d")),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero,
+        };
+    });
 
 builder.Services.AddScoped <ICarRepository, CarRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -37,6 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
