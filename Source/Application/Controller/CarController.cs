@@ -1,6 +1,7 @@
 ﻿using CarCatalogAPI.Source.Core.DTOs;
 using CarCatalogAPI.Source.Core.Interfaces.Repositories;
 using CarCatalogAPI.Source.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarCatalogAPI.Source.Application.Controller
@@ -33,6 +34,7 @@ namespace CarCatalogAPI.Source.Application.Controller
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<CarEntity>> Create([FromBody] CarDTO carDTO)
         {
             CarEntity car = new()
@@ -49,26 +51,24 @@ namespace CarCatalogAPI.Source.Application.Controller
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<CarEntity>> Update([FromBody] CarDTO carDTO, Guid id)
         {
-            CarEntity carEntity = await _carRepository.FindById(id);
-            if (carEntity == null) return NotFound();
+            CarEntity carById = await _carRepository.FindById(id);
+            if (carById == null) return NotFound();
 
-            CarEntity car = new()
-            {
-                Id = id,
-                Name = carDTO.Name,
-                Brand = carDTO.Brand,
-                Model = carDTO.Model,
-                UrlImage = carDTO.UrlImage,
-            };
+            carById.Name = carDTO.Name;
+            carById.Brand = carDTO.Brand;
+            carById.Model = carDTO.Model;
+            carById.UrlImage = carDTO.UrlImage;
 
-            car = await _carRepository.Update(car);
+            await _carRepository.Update(carById);
             
-            return Ok(car);
+            return Ok(carById);
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<CarEntity>> Delete(Guid id)
         {
             CarEntity car =  await _carRepository.FindById(id);
