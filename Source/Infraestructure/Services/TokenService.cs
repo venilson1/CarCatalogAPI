@@ -12,7 +12,7 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
     {
         public TokenEntity Create(IdentityUser<int> user)
         {
-            Claim[] claims = new Claim[]
+            Claim[] claimsRight = new Claim[]
             {
                 new Claim("username", user.UserName),
                 new Claim("id", user.Id.ToString())
@@ -22,7 +22,7 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
 
             var credencials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(claims: claims, signingCredentials: credencials, expires: DateTime.UtcNow.AddHours(1));
+            var token = new JwtSecurityToken(claims: claimsRight, signingCredentials: credencials, expires: DateTime.UtcNow.AddHours(1));
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 

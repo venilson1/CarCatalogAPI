@@ -27,8 +27,8 @@ namespace CarCatalogAPI.Source.Application.Controller
         public async Task<IActionResult> Login(LoginDTO dto)
         {
             Result result = await _authService.Login(dto);
-            if (result.IsFailed) return Unauthorized(result.Errors);
-            return Ok();
+            if (result.IsFailed) return Unauthorized(result.Errors.FirstOrDefault());
+            return Ok(result.Successes.FirstOrDefault());
         }
     }
 }
