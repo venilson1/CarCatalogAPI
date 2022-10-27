@@ -20,7 +20,7 @@ namespace CarCatalogAPI.Source.Application.Controller
         {
             Result result = await _authService.Create(dto);
             if (result.IsFailed) return StatusCode(400);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpPost("login")]
