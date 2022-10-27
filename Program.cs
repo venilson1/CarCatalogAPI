@@ -21,6 +21,7 @@ builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
 
 builder.Services.AddScoped <ICarRepository, CarRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
