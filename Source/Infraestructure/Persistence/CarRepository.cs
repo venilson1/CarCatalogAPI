@@ -43,10 +43,14 @@ namespace CarCatalogAPI.Source.Infraestructure.Persistence
             return true;
         }
 
-        public async Task<int> Count()
+        public async Task<int> CountPage()
         {
-            var total = _dbContex.Cars.Count();
-            return total;
+            int total = _dbContex.Cars.Count();
+
+            decimal totalPage = total / 8;
+
+            totalPage = Math.Ceiling(totalPage);
+            return (int)totalPage;
         }
     }
 }

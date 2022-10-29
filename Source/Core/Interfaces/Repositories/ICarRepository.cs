@@ -10,6 +10,6 @@ namespace CarCatalogAPI.Source.Core.Interfaces.Repositories
         Task<CarEntity> Update(CarEntity car);
         Task<bool> Delete(CarEntity car);
 
-        Task<int> Count();
+        Task<int> CountPage();
     }
 }

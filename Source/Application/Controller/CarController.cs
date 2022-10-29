@@ -24,11 +24,11 @@ namespace CarCatalogAPI.Source.Application.Controller
             )
         {
             List<CarEntity> cars = await _carRepository.FindAll(page);
-            var total = await _carRepository.Count();
+            var totalPage = await _carRepository.CountPage();
 
             return Ok(new
             {
-                total = total,
+                totalPage = totalPage,
                 page = page,
                 data = cars,
             });
