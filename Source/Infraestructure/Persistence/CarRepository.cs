@@ -13,9 +13,9 @@ namespace CarCatalogAPI.Source.Infraestructure.Persistence
         }
         public async Task<List<CarEntity>> FindAll(int page)
         {
-            return await _dbContex.Cars.AsNoTracking().Skip(page).Take(8).ToListAsync();
+            return await _dbContex.Cars.OrderBy(x => x.Price).AsNoTracking().Skip((page * 8)).Take(8).ToListAsync();
         }
-
+        //page = 1 --- 8 ao 16
         public async Task<CarEntity> FindById(Guid id)
         {
             return await _dbContex.Cars.FirstOrDefaultAsync(x => x.Id == id);

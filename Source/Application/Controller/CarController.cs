@@ -26,12 +26,11 @@ namespace CarCatalogAPI.Source.Application.Controller
             List<CarEntity> cars = await _carRepository.FindAll(page);
             var total = await _carRepository.Count();
 
-            List<CarEntity> sortedCars = cars.OrderBy(x => x.Price).ToList();
             return Ok(new
             {
                 total = total,
                 page = page,
-                data = sortedCars,
+                data = cars,
             });
         }
 
