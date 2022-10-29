@@ -1,6 +1,7 @@
 ﻿using CarCatalogAPI.Source.Core.DTOs;
 using CarCatalogAPI.Source.Core.Interfaces.Repositories;
 using CarCatalogAPI.Source.Entities;
+using CarCatalogAPI.Source.Infraestructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,21 @@ namespace CarCatalogAPI.Source.Application.Controller
             _carRepository = carRepository;
         }
         
-        [HttpGet]
-        public async Task<ActionResult<List<CarEntity>>> FindAll()
+        [HttpGet()]
+        public async Task<ActionResult<List<CarEntity>>> FindAll(
+                [FromQuery] int page = 0
+            )
         {
-            List<CarEntity> cars = await _carRepository.FindAll();
-            return Ok(cars);
+            List<CarEntity> cars = await _carRepository.FindAll(page);
+            var total = await _carRepository.Count();
+
+            List<CarEntity> sortedCars = cars.OrderBy(x => x.Price).ToList();
+            return Ok(new
+            {
+                total = total,
+                page = page,
+                data = sortedCars,
+            });
         }
 
 
@@ -42,6 +53,7 @@ namespace CarCatalogAPI.Source.Application.Controller
                 Name = carDTO.Name,
                 Brand = carDTO.Brand,
                 Model = carDTO.Model,
+                Price = carDTO.Price,
                 UrlImage = carDTO.UrlImage,
                 CreatedAt = DateTime.Now
             };
@@ -60,6 +72,7 @@ namespace CarCatalogAPI.Source.Application.Controller
             carById.Name = carDTO.Name;
             carById.Brand = carDTO.Brand;
             carById.Model = carDTO.Model;
+            carById.Price = carDTO.Price;
             carById.UrlImage = carDTO.UrlImage;
 
             await _carRepository.Update(carById);

@@ -11,9 +11,9 @@ namespace CarCatalogAPI.Source.Infraestructure.Persistence
         {
             _dbContex = dbContex;
         }
-        public async Task<List<CarEntity>> FindAll()
+        public async Task<List<CarEntity>> FindAll(int page)
         {
-            return await _dbContex.Cars.ToListAsync();
+            return await _dbContex.Cars.AsNoTracking().Skip(page).Take(8).ToListAsync();
         }
 
         public async Task<CarEntity> FindById(Guid id)
@@ -41,6 +41,12 @@ namespace CarCatalogAPI.Source.Infraestructure.Persistence
             _dbContex.Cars.Remove(car);
             await _dbContex.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<int> Count()
+        {
+            var total = _dbContex.Cars.Count();
+            return total;
         }
     }
 }

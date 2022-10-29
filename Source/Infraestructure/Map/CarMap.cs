@@ -12,6 +12,7 @@ namespace CarCatalogAPI.Source.Infraestructure.Map
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.Brand).IsRequired();
             builder.Property(x => x.Model).IsRequired();
+            builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.UrlImage);
         }
     }

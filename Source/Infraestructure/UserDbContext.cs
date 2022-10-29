@@ -7,8 +7,5 @@ namespace CarCatalogAPI.Source.Infraestructure
     public class UserDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
-
-
-
     }
 }

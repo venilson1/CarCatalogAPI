@@ -9,6 +9,8 @@ namespace CarCatalogAPI.Source.Core.DTOs
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
+        public double Price { get; set; }
+        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Model { get; set; }
         public string UrlImage { get; set; }
     }
