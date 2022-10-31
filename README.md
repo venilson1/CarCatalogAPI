@@ -1,16 +1,22 @@
 # CarCatalogAPI
 
-Projeto de vitrine carros.
+Projeto vitrine de carros.
 
 # Configuração
 
-Você pode rodar este comando Docker para instanciar um banco SqlServer.
+você terá duas opçoes para configurar o projeto
+
+- 1º opção
+
+Baixar uma imagem docker com a congiguração do banco setadas igual ao do projeto
 
 ```
 docker run -v ~/docker --name sqlserver -e "ACCEPT_EULA=Y" -e "MSSQL_USER=sa" -e "MSSQL_SA_PASSWORD=Root@2022" -p 1433:1433 -d mcr.microsoft.com/mssql/server
 ```
 
-ou abrir o appsettigns do projeto e configurar a ConnectionString de acordo com as configurações do seu banco sql server.
+- 2º opção
+
+Abrir o appsettigns do projeto e configurar a ConnectionString de acordo com as configurações do seu banco sql server local.
 
 ### Configuração Padrão do AppSettings
 
@@ -18,7 +24,7 @@ ou abrir o appsettigns do projeto e configurar a ConnectionString de acordo com 
 server=localhost;database=car_catalog;user=sa;password=Root@2022
 ```
 
-# Rodando contexto
+# Rodando os contextos
 
 ```
  Update-Database -Context CarCatalogDbContext
@@ -28,12 +34,20 @@ server=localhost;database=car_catalog;user=sa;password=Root@2022
  Update-Database -Context UserDbContext
 ```
 
-# Criar um user dentro postman ou insomnia
+
+# Criar um usuário para acesso do admin
 
 na rota `http://localhost:5103/auth/create` crie um usuario com os seguintes parametros
 
 {
   "username": "user",
   "email": "user@verzel.com",
-  "password": "verzel123@"
+  "password": "Verzel123@"
 }
+
+- collection postman: `https://www.getpostman.com/collections/34b77ff83db610f8061f`
+
+
+### rodar o projeto
+
+`dotnet run`
