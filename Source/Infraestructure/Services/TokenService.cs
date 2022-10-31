@@ -22,7 +22,7 @@ namespace CarCatalogAPI.Source.Infraestructure.Services
 
             var credencials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(claims: claimsRight, signingCredentials: credencials, expires: DateTime.UtcNow.AddHours(1));
+            var token = new JwtSecurityToken(claims: claimsRight, signingCredentials: credencials, expires: DateTime.UtcNow.AddHours(48));
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
